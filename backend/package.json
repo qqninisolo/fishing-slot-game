@@ -1,0 +1,30 @@
+{
+  "name": "欢乐渔乐城后端服务",
+  "version": "1.0.0",
+  "description": "《欢乐渔乐城》棋牌游戏后端服务，包含Slots核心逻辑、账号系统、经济系统等",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slots",
+    "fishing",
+    "game",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.2.1",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
