@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢乐渔乐城 - 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #2a5298;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+        .verify-code {
+            display: flex;
+            gap: 10px;
+        }
+        .verify-code input {
+            flex: 1;
+        }
+        .verify-btn {
+            padding: 12px 20px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+        .other-login {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .other-login p {
+            color: #999;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .login-methods {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .method-item {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .method-item:hover {
+            transform: scale(1.1);
+        }
+        .method-item img {
+            width: 45px;
+            height: 45px;
+        }
+        .guest-login {
+            text-align: center;
+        }
+        .guest-login a {
+            color: #2a5298;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🎣 欢乐渔乐城</h1>
+            <p>捕鱼+老虎机，多重欢乐等你体验</p>
+        </div>
+        
+        <div class="input-group">
+            <label>手机号</label>
+            <input type="tel" placeholder="请输入手机号" id="phone">
+        </div>
+        
+        <div class="input-group">
+            <label>验证码</label>
+            <div class="verify-code">
+                <input type="text" placeholder="请输入验证码" id="code">
+                <button class="verify-btn" onclick="sendCode()">获取验证码</button>
+            </div>
+        </div>
+        
+        <button class="login-btn" onclick="login()">登录</button>
+        
+        <div class="other-login">
+            <p>其他登录方式</p>
+            <div class="login-methods">
+                <div class="method-item" onclick="thirdLogin('wechat')">
+                    <img src="https://img.icons8.com/color/96/000000/wechat.png" alt="微信登录">
+                </div>
+                <div class="method-item" onclick="thirdLogin('qq')">
+                    <img src="https://img.icons8.com/color/96/000000/qq.png" alt="QQ登录">
+                </div>
+            </div>
+        </div>
+        
+        <div class="guest-login">
+            <a href="javascript:guestLogin()">游客快速登录</a>
+        </div>
+    </div>
+
+    <script>
+        function sendCode() {
+            alert('验证码已发送');
+        }
+
+        function login() {
+            const phone = document.getElementById('phone').value;
+            const code = document.getElementById('code').value;
+            if (!phone || !code) {
+                alert('请输入手机号和验证码');
+                return;
+            }
+            localStorage.setItem('isLogin', 'true');
+            localStorage.setItem('userInfo', JSON.stringify({
+                name: '玩家' + Math.floor(Math.random() * 10000),
+                gold: 10000,
+                level: 1
+            }));
+            window.location.href = 'hall.html';
+        }
+
+        function thirdLogin(type) {
+            alert(type === 'wechat' ? '微信登录成功' : 'QQ登录成功');
+            localStorage.setItem('isLogin', 'true');
+            localStorage.setItem('userInfo', JSON.stringify({
+                name: type + '用户' + Math.floor(Math.random() * 10000),
+                gold: 15000,
+                level: 1
+            }));
+            window.location.href = 'hall.html';
+        }
+
+        function guestLogin() {
+            alert('游客登录成功');
+            localStorage.setItem('isLogin', 'true');
+            localStorage.setItem('userInfo', JSON.stringify({
+                name: '游客' + Math.floor(Math.random() * 10000),
+                gold: 5000,
+                level: 1
+            }));
+            window.location.href = 'hall.html';
+        }
+
+        // 已登录直接跳大厅
+        if (localStorage.getItem('isLogin') === 'true') {
+            window.location.href = 'hall.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢乐渔乐城 - 游戏大厅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            color: white;
+        }
+        /* 顶部导航 */
+        .top-nav {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #00d4ff;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .user-detail h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        .user-detail p {
+            font-size: 12px;
+            color: #00d4ff;
+        }
+        .asset-bar {
+            display: flex;
+            gap: 30px;
+        }
+        .asset-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .gold-icon {
+            color: #ffd700;
+            font-size: 20px;
+        }
+        .diamond-icon {
+            color: #00bfff;
+            font-size: 20px;
+        }
+        .recharge-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .recharge-btn:hover {
+            transform: scale(1.05);
+        }
+        /* 游戏选择区 */
+        .game-section {
+            padding: 50px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        .game-card:hover {
+            border-color: #00d4ff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+        .game-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .game-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .game-card p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .enter-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 2px solid #00d4ff;
+        }
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: #00d4ff;
+        }
+        .nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .nav-item p {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+        <div class="user-info">
+            <div class="avatar">👤</div>
+            <div class="user-detail">
+                <h3 id="userName">玩家1234</h3>
+                <p>VIP 1</p>
+            </div>
+        </div>
+        <div class="asset-bar">
+            <div class="asset-item">
+                <span class="gold-icon">💰</span>
+                <span id="gold">10000</span>
+            </div>
+            <div class="asset-item">
+                <span class="diamond-icon">💎</span>
+                <span id="diamond">100</span>
+            </div>
+            <button class="recharge-btn">充值</button>
+        </div>
+    </div>
+
+    <!-- 游戏选择区 -->
+    <div class="game-section">
+        <h2 class="section-title">选择游戏</h2>
+        <div class="game-grid">
+            <div class="game-card" onclick="enterGame('fishing')">
+                <div class="game-icon">🎣</div>
+                <h3>欢乐捕鱼</h3>
+                <p>3大深海场景，千倍爆率，海量金币等你拿</p>
+                <button class="enter-btn">立即进入</button>
+            </div>
+            <div class="game-card" onclick="enterGame('slot')">
+                <div class="game-icon">🎰</div>
+                <h3>老虎机</h3>
+                <p>多种主题，超高赔率，一键暴富不是梦</p>
+                <button class="enter-btn">立即进入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="icon">🏠</div>
+            <p>首页</p>
+        </div>
+        <div class="nav-item">
+            <div class="icon">🛒</div>
+            <p>商城</p>
+        </div>
+        <div class="nav-item">
+            <div class="icon">🎒</div>
+            <p>背包</p>
+        </div>
+        <div class="nav-item">
+            <div class="icon">💬</div>
+            <p>客服</p>
+        </div>
+        <div class="nav-item">
+            <div class="icon">👤</div>
+            <p>我的</p>
+        </div>
+    </div>
+
+    <script>
+        // 加载用户信息
+        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        document.getElementById('userName').textContent = userInfo.name || '游客';
+        document.getElementById('gold').textContent = userInfo.gold || 0;
+
+        // 未登录跳登录
+        if (localStorage.getItem('isLogin') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        function enterGame(type) {
+            if (type === 'fishing') {
+                window.location.href = 'fishing.html';
+            } else if (type === 'slot') {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
