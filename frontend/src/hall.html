@@ -628,7 +628,12 @@
         }
 
         // 加载用户信息
-        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        let userInfo = {};
+        try {
+            userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        } catch (e) {
+            console.error('localStorage读取失败:', e);
+        }
         document.getElementById('userName').textContent = userInfo.name || '游客';
         document.getElementById('gold').textContent = userInfo.gold || 0;
         document.getElementById('diamond').textContent = userInfo.diamond || 0;
@@ -636,8 +641,12 @@
         document.getElementById('levelText').textContent = 'LV.' + (userInfo.level || 1);
 
         // 未登录跳登录
-        if (localStorage.getItem('isLogin') !== 'true') {
-            window.location.href = 'login.html';
+        try {
+            if (localStorage.getItem('isLogin') !== 'true') {
+                window.location.href = 'login.html';
+            }
+        } catch (e) {
+            console.error('localStorage读取失败:', e);
         }
 
         // 进入游戏
@@ -682,8 +691,12 @@
         // 退出登录
         function logout() {
             if (confirm('确定要退出登录吗？')) {
-                localStorage.removeItem('isLogin');
-                localStorage.removeItem('userInfo');
+                try {
+                    localStorage.removeItem('isLogin');
+                    localStorage.removeItem('userInfo');
+                } catch (e) {
+                    console.error('localStorage清除失败:', e);
+                }
                 showToast('已退出登录', 'success');
                 setTimeout(() => {
                     window.location.href = 'login.html';

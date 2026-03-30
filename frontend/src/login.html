@@ -517,15 +517,19 @@
 
             // 模拟登录请求
             setTimeout(() => {
-                localStorage.setItem('isLogin', 'true');
-                localStorage.setItem('userInfo', JSON.stringify({
-                    name: '玩家' + Math.floor(Math.random() * 10000),
-                    phone: phone,
-                    gold: 10000,
-                    diamond: 100,
-                    level: 1,
-                    vip: 1
-                }));
+                try {
+                    localStorage.setItem('isLogin', 'true');
+                    localStorage.setItem('userInfo', JSON.stringify({
+                        name: '玩家' + Math.floor(Math.random() * 10000),
+                        phone: phone,
+                        gold: 10000,
+                        diamond: 100,
+                        level: 1,
+                        vip: 1
+                    }));
+                } catch (e) {
+                    console.error('localStorage写入失败:', e);
+                }
 
                 showToast('登录成功', 'success');
 
@@ -540,14 +544,18 @@
             showToast(`${type === 'wechat' ? '微信' : 'QQ'}登录成功`, 'success');
 
             setTimeout(() => {
-                localStorage.setItem('isLogin', 'true');
-                localStorage.setItem('userInfo', JSON.stringify({
-                    name: `${type === 'wechat' ? '微信' : 'QQ'}用户` + Math.floor(Math.random() * 10000),
-                    gold: 15000,
-                    diamond: 150,
-                    level: 1,
-                    vip: 1
-                }));
+                try {
+                    localStorage.setItem('isLogin', 'true');
+                    localStorage.setItem('userInfo', JSON.stringify({
+                        name: `${type === 'wechat' ? '微信' : 'QQ'}用户` + Math.floor(Math.random() * 10000),
+                        gold: 15000,
+                        diamond: 150,
+                        level: 1,
+                        vip: 1
+                    }));
+                } catch (e) {
+                    console.error('localStorage写入失败:', e);
+                }
 
                 setTimeout(() => {
                     window.location.href = 'hall.html';
@@ -560,15 +568,19 @@
             showToast('游客登录成功', 'success');
 
             setTimeout(() => {
-                localStorage.setItem('isLogin', 'true');
-                localStorage.setItem('userInfo', JSON.stringify({
-                    name: '游客' + Math.floor(Math.random() * 10000),
-                    gold: 5000,
-                    diamond: 50,
-                    level: 1,
-                    vip: 0,
-                    isGuest: true
-                }));
+                try {
+                    localStorage.setItem('isLogin', 'true');
+                    localStorage.setItem('userInfo', JSON.stringify({
+                        name: '游客' + Math.floor(Math.random() * 10000),
+                        gold: 5000,
+                        diamond: 50,
+                        level: 1,
+                        vip: 0,
+                        isGuest: true
+                    }));
+                } catch (e) {
+                    console.error('localStorage写入失败:', e);
+                }
 
                 setTimeout(() => {
                     window.location.href = 'hall.html';
@@ -586,8 +598,12 @@
         });
 
         // 已登录直接跳大厅
-        if (localStorage.getItem('isLogin') === 'true') {
-            window.location.href = 'hall.html';
+        try {
+            if (localStorage.getItem('isLogin') === 'true') {
+                window.location.href = 'hall.html';
+            }
+        } catch (e) {
+            console.error('localStorage访问失败:', e);
         }
     </script>
 </body>

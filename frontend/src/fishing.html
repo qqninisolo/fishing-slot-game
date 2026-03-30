@@ -509,7 +509,13 @@
 
     <script>
         // 游戏状态
-        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        let userInfo = {};
+        try {
+            userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        } catch (e) {
+            console.error('localStorage读取失败:', e);
+            userInfo = {};
+        }
         let gold = userInfo.gold || 10000;
         let diamond = userInfo.diamond || 100;
         let score = 0;
@@ -574,7 +580,11 @@
         function saveUserInfo() {
             userInfo.gold = gold;
             userInfo.diamond = diamond;
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            try {
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            } catch (e) {
+                console.error('localStorage写入失败:', e);
+            }
         }
 
         // 调整倍率
@@ -845,8 +855,12 @@
         }
 
         // 未登录跳转
-        if (localStorage.getItem('isLogin') !== 'true') {
-            window.location.href = 'login.html';
+        try {
+            if (localStorage.getItem('isLogin') !== 'true') {
+                window.location.href = 'login.html';
+            }
+        } catch (e) {
+            console.error('localStorage读取失败:', e);
         }
     </script>
 </body>
