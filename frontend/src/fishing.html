@@ -135,7 +135,7 @@
             z-index: 10;
         }
 
-        .fish.tiny { font-size: 30px; }
+        .fish.tiny { font-size: 35px; }
         .fish.small { font-size: 40px; }
         .fish.medium { font-size: 55px; }
         .fish.large { font-size: 75px; }
@@ -197,7 +197,7 @@
             100% { transform: scale(2.5); opacity: 0; }
         }
 
-        /* 底部控制栏 - 重新设计 */
+        /* 底部控制栏 */
         .control-bar {
             position: fixed;
             bottom: 0;
@@ -213,7 +213,7 @@
             backdrop-filter: blur(10px);
         }
 
-        /* 炮台区域 - 重新设计 */
+        /* 炮台区域 */
         .cannon-section {
             display: flex;
             align-items: center;
@@ -264,8 +264,8 @@
         /* 炮台 - 重新设计，更大更明显 */
         .cannon-container {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 160px !important;
+            height: 160px !important;
         }
 
         .cannon {
@@ -276,7 +276,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 55px;
+            font-size: 80px !important;
             box-shadow: 0 8px 25px rgba(240, 147, 251, 0.7);
             border: 4px solid rgba(255, 255, 255, 0.3);
             animation: pulse 2s ease-in-out infinite;
@@ -306,7 +306,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 开炮按钮 - 重新设计 */
+        /* 开炮按钮 */
         .fire-section {
             display: flex;
             align-items: center;
@@ -342,7 +342,7 @@
             cursor: not-allowed;
         }
 
-        /* 技能区域 - 重新设计 */
+        /* 技能区域 */
         .skills-section {
             display: flex;
             gap: 12px;
@@ -536,12 +536,12 @@
             }
 
             .cannon-container {
-                width: 80px;
-                height: 80px;
+                width: 120px !important;
+                height: 120px !important;
             }
 
             .cannon {
-                font-size: 45px;
+                font-size: 55px !important;
             }
 
             .multiplier-btn {
@@ -605,7 +605,7 @@
         <!-- 鱼会动态生成 -->
     </div>
 
-    <!-- 底部控制栏 - 重新设计 -->
+    <!-- 底部控制栏 -->
     <div class="control-bar">
         <!-- 炮台区域 -->
         <div class="cannon-section">
@@ -665,7 +665,7 @@
             bomb: 0
         };
 
-        // 改进的鱼类配置 - 使用更好的emoji
+        // 改进的鱼类配置
         const fishTypes = [
             { emoji: '🐠', size: 'tiny', reward: 5, speed: 10, probability: 0.35 },
             { emoji: '🐟', size: 'small', reward: 8, speed: 9, probability: 0.30 },
@@ -760,10 +760,10 @@
         function createBullet() {
             const bullet = document.createElement('div');
             bullet.className = 'bullet';
-            
+
             const cannon = document.querySelector('.cannon-container');
             const cannonRect = cannon.getBoundingClientRect();
-            
+
             bullet.style.left = (cannonRect.left + cannonRect.width / 2 - 12) + 'px';
             bullet.style.bottom = (window.innerHeight - cannonRect.bottom) + 'px';
             bullet.style.transform = 'translateX(-50%)';
@@ -804,8 +804,7 @@
         // 捕获鱼类
         function catchFish(fishElement, fishData) {
             const rect = fishElement.getBoundingClientRect();
-            
-            // 创建爆炸效果
+
             const explosion = document.createElement('div');
             explosion.className = 'explosion';
             explosion.style.left = rect.left + rect.width / 2 - 60 + 'px';
@@ -814,11 +813,9 @@
 
             setTimeout(() => explosion.remove(), 600);
 
-            // 鱼被捕获动画
             fishElement.classList.add('caught');
             fishElement.classList.remove('moving-right', 'moving-left');
 
-            // 计算奖励
             const reward = fishData.reward * multiplier;
             gold += reward;
             score += reward;
@@ -826,10 +823,8 @@
             document.getElementById('gold').textContent = gold;
             document.getElementById('score').textContent = score;
 
-            // 显示奖励文字
             showHitEffect(rect.left + rect.width / 2, rect.top, reward);
 
-            // 移除鱼
             setTimeout(() => {
                 fishElement.remove();
                 fishList = fishList.filter(f => f.element !== fishElement);
