@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>欢乐渔乐城 - 捕鱼游戏</title>
     <style>
         * {
@@ -10,204 +10,449 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             background: linear-gradient(180deg, #001a33 0%, #003366 50%, #004d99 100%);
-            font-family: 'Microsoft YaHei', sans-serif;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             overflow: hidden;
             position: relative;
             min-height: 100vh;
         }
+
         /* 海面效果 */
         .sea-surface {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 150px;
-            background: linear-gradient(180deg, rgba(0, 183, 255, 0.3) 0%, transparent 100%);
+            height: 180px;
+            background: linear-gradient(180deg, rgba(0, 183, 255, 0.4) 0%, transparent 100%);
             animation: wave 3s ease-in-out infinite;
+            z-index: 5;
         }
+
         @keyframes wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-15px) scaleY(1.1); }
         }
+
         /* 气泡效果 */
         .bubble {
             position: absolute;
             bottom: -50px;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.3);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(0, 183, 255, 0.2));
             border-radius: 50%;
-            animation: rise 10s linear infinite;
+            animation: rise 12s linear infinite;
         }
+
         @keyframes rise {
-            to {
-                transform: translateY(-100vh);
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.2);
                 opacity: 0;
             }
         }
-        .bubble:nth-child(2) { left: 20%; width: 15px; height: 15px; animation-duration: 8s; animation-delay: 1s; }
-        .bubble:nth-child(3) { left: 40%; width: 25px; height: 25px; animation-duration: 12s; animation-delay: 2s; }
-        .bubble:nth-child(4) { left: 60%; width: 10px; height: 10px; animation-duration: 7s; animation-delay: 3s; }
-        .bubble:nth-child(5) { left: 80%; width: 30px; height: 30px; animation-duration: 15s; animation-delay: 4s; }
+
         /* 顶部状态栏 */
         .status-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px 20px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 100%);
+            padding: 12px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(0, 212, 255, 0.5);
         }
+
         .back-btn {
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid #00d4ff;
-            border-radius: 20px;
+            padding: 10px 25px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00d4ff;
+            border-radius: 25px;
             color: white;
+            font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-size: 14px;
         }
+
         .back-btn:hover {
-            background: rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.4);
+            transform: scale(1.05);
         }
+
         .game-info {
             display: flex;
-            gap: 30px;
+            gap: 35px;
             color: white;
         }
+
         .info-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
         }
-        .gold { color: #ffd700; font-weight: bold; }
-        .score { color: #00ff88; font-weight: bold; }
+
+        .gold { color: #ffd700; font-size: 20px; }
+        .score { color: #00ff88; font-size: 20px; }
+
         /* 游戏区域 */
         .game-area {
             width: 100vw;
-            height: calc(100vh - 120px);
+            height: calc(100vh - 160px);
             position: relative;
-            margin-top: 50px;
+            margin-top: 70px;
+            overflow: hidden;
         }
-        /* 鱼类 */
+
+        /* 鱼类动画 */
         .fish {
             position: absolute;
             font-size: 40px;
-            animation: swim 15s linear infinite;
+            transition: transform 0.1s;
+            cursor: crosshair;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
         }
-        @keyframes swim {
-            0% { transform: translateX(-100px) rotateY(0); }
-            49% { transform: translateX(calc(100vw + 100px)) rotateY(0); }
-            50% { transform: translateX(calc(100vw + 100px)) rotateY(180deg); }
-            99% { transform: translateX(-100px) rotateY(180deg); }
-            100% { transform: translateX(-100px) rotateY(0); }
+
+        .fish.small {
+            font-size: 35px;
         }
-        .fish.small { font-size: 30px; animation-duration: 10s; }
-        .fish.medium { font-size: 50px; animation-duration: 18s; animation-delay: 2s; }
-        .fish.big { font-size: 70px; animation-duration: 25s; animation-delay: 5s; }
-        .fish:nth-child(1) { top: 20%; left: 0; animation-delay: 0s; }
-        .fish:nth-child(2) { top: 35%; left: 0; animation-delay: 3s; }
-        .fish:nth-child(3) { top: 50%; left: 0; animation-delay: 1s; }
-        .fish:nth-child(4) { top: 65%; left: 0; animation-delay: 4s; }
-        .fish:nth-child(5) { top: 80%; left: 0; animation-delay: 2s; }
+
+        .fish.medium {
+            font-size: 50px;
+        }
+
+        .fish.big {
+            font-size: 70px;
+        }
+
+        .fish.moving-right {
+            animation: swimRight linear infinite;
+        }
+
+        .fish.moving-left {
+            animation: swimLeft linear infinite;
+        }
+
+        @keyframes swimRight {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        @keyframes swimLeft {
+            0% { transform: translateX(calc(100vw + 100px)) scaleX(-1); }
+            100% { transform: translateX(-100px) scaleX(-1); }
+        }
+
+        .fish.caught {
+            animation: caught 0.5s ease-out forwards;
+        }
+
+        @keyframes caught {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        /* 炮弹效果 */
+        .bullet {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            z-index: 50;
+        }
+
+        /* 爆炸效果 */
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 140, 0, 0.4) 50%, transparent 100%);
+            border-radius: 50%;
+            animation: explode 0.5s ease-out forwards;
+            z-index: 60;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
         /* 底部控制栏 */
         .control-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px 20px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%);
+            padding: 15px 30px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 2px solid #00d4ff;
             z-index: 100;
+            border-top: 2px solid rgba(0, 212, 255, 0.5);
+            backdrop-filter: blur(10px);
         }
+
         .cannon-area {
             display: flex;
             align-items: center;
             gap: 20px;
         }
-        .cannon {
-            font-size: 60px;
-            transform: rotate(-90deg);
-        }
+
         .bullet-level {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 10px;
         }
+
         .level-btn {
-            width: 30px;
-            height: 30px;
-            background: rgba(0, 212, 255, 0.3);
-            border: 1px solid #00d4ff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .fire-btn {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ff4444 0%, #cc0000 100%);
-            border: 3px solid white;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
             border-radius: 50%;
             color: white;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 16px;
-            transition: transform 0.1s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
+
+        .level-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cannon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .fire-btn {
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .fire-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.7);
+        }
+
         .fire-btn:active {
-            transform: scale(0.9);
+            transform: scale(0.95);
         }
+
+        /* 技能按钮 */
+        .skills-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .skill-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .skill-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            border-color: #00d4ff;
+        }
+
+        .skill-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .skill-btn .skill-cooldown {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .skill-btn .skill-cost {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255, 215, 0, 0.8);
+            color: black;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
         .auto-fire {
             display: flex;
             align-items: center;
             gap: 10px;
-            color: white;
+            margin-left: 20px;
         }
+
         .auto-switch {
-            width: 50px;
-            height: 25px;
-            background: #ccc;
-            border-radius: 25px;
-            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
             cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
         }
+
         .auto-switch.active {
-            background: #00d4ff;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
         }
-        .auto-switch::after {
+
+        .auto-switch::before {
             content: '';
             position: absolute;
-            width: 21px;
-            height: 21px;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
             background: white;
             border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: left 0.3s;
+            transition: all 0.3s;
         }
-        .auto-switch.active::after {
-            left: 27px;
+
+        .auto-switch.active::before {
+            left: 33px;
+        }
+
+        /* 命中特效文字 */
+        .hit-effect {
+            position: fixed;
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: bold;
+            z-index: 200;
+            animation: hitFloat 2s ease-out forwards;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+
+        @keyframes hitFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1.3);
+            }
+        }
+
+        /* 技能效果 */
+        .skill-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .ice-effect {
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+            animation: iceFlash 2s ease-out forwards;
+        }
+
+        @keyframes iceFlash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* 提示框 */
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            z-index: 1000;
+            animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.success { background: linear-gradient(135deg, #00c853 0%, #00a843 100%); }
+        .toast.error { background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%); }
+        .toast.info { background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 海面效果 -->
     <div class="sea-surface"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
+
+    <!-- 气泡 -->
+    <div id="bubbles"></div>
 
     <!-- 顶部状态栏 -->
     <div class="status-bar">
@@ -229,108 +474,377 @@
     </div>
 
     <!-- 游戏区域 -->
-    <div class="game-area">
-        <div class="fish small">🐟</div>
-        <div class="fish small">🐠</div>
-        <div class="fish medium">🐡</div>
-        <div class="fish medium">🦈</div>
-        <div class="fish big">🐳</div>
+    <div class="game-area" id="gameArea">
+        <!-- 鱼会动态生成 -->
     </div>
 
     <!-- 底部控制栏 -->
     <div class="control-bar">
         <div class="cannon-area">
             <div class="bullet-level">
+                <button class="level-btn" onclick="changeMultiplier(10)">-</button>
                 <button class="level-btn" onclick="changeMultiplier(1)">+</button>
-                <button class="level-btn" onclick="changeMultiplier(-1)">-</button>
             </div>
             <div class="cannon">🔫</div>
         </div>
-        <button class="fire-btn" onclick="fire()">开炮</button>
+
+        <button class="fire-btn" onclick="fire()">🎯 开炮</button>
+
+        <div class="skills-area">
+            <button class="skill-btn" id="iceBtn" onclick="useSkill('ice')" title="冰冻技能">
+                ❄️
+                <span class="skill-cost">10💎</span>
+            </button>
+            <button class="skill-btn" id="bombBtn" onclick="useSkill('bomb')" title="炸弹技能">
+                💣
+                <span class="skill-cost">20💎</span>
+            </button>
+        </div>
+
         <div class="auto-fire">
             <span>自动开炮</span>
-            <div class="auto-switch" onclick="toggleAuto()"></div>
+            <div class="auto-switch" onclick="toggleAuto()" id="autoSwitch"></div>
         </div>
     </div>
 
     <script>
-        // 加载用户金币
+        // 游戏状态
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
         let gold = userInfo.gold || 10000;
+        let diamond = userInfo.diamond || 100;
         let score = 0;
         let multiplier = 10;
         let autoFire = false;
         let autoInterval = null;
+        let fishList = [];
+        let skillCooldowns = {
+            ice: 0,
+            bomb: 0
+        };
 
+        // 鱼类配置
+        const fishTypes = [
+            { emoji: '🐟', size: 'small', reward: 5, speed: 8, probability: 0.4 },
+            { emoji: '🐠', size: 'small', reward: 8, speed: 7, probability: 0.3 },
+            { emoji: '🐡', size: 'medium', reward: 15, speed: 6, probability: 0.15 },
+            { emoji: '🦈', size: 'medium', reward: 25, speed: 5, probability: 0.1 },
+            { emoji: '🐳', size: 'big', reward: 50, speed: 4, probability: 0.05 }
+        ];
+
+        // 初始化
         document.getElementById('gold').textContent = gold;
+        generateBubbles();
 
+        // 生成气泡
+        function generateBubbles() {
+            const container = document.getElementById('bubbles');
+            for (let i = 0; i < 10; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.width = Math.random() * 30 + 15 + 'px';
+                bubble.style.height = bubble.style.width;
+                bubble.style.animationDuration = Math.random() * 8 + 8 + 's';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(bubble);
+            }
+        }
+
+        // 显示提示
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // 返回大厅
         function backToHall() {
             if (autoInterval) clearInterval(autoInterval);
-            // 保存金币更新
-            userInfo.gold = gold;
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            saveUserInfo();
             window.location.href = 'hall.html';
         }
 
+        // 保存用户信息
+        function saveUserInfo() {
+            userInfo.gold = gold;
+            userInfo.diamond = diamond;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        }
+
+        // 调整倍率
         function changeMultiplier(delta) {
             multiplier = Math.max(1, Math.min(100, multiplier + delta));
             document.getElementById('multiplier').textContent = 'x' + multiplier;
         }
 
+        // 开炮
         function fire() {
             if (gold < multiplier) {
-                alert('金币不足！');
+                showToast('金币不足！', 'error');
                 return;
             }
+
             gold -= multiplier;
             document.getElementById('gold').textContent = gold;
 
-            // 随机命中
-            if (Math.random() < 0.3) {
-                const reward = multiplier * Math.floor(Math.random() * 20 + 1);
-                gold += reward;
-                score += reward;
-                document.getElementById('gold').textContent = gold;
-                document.getElementById('score').textContent = score;
-                // 命中效果
-                const hitEffect = document.createElement('div');
-                hitEffect.textContent = '+' + reward;
-                hitEffect.style.position = 'absolute';
-                hitEffect.style.left = Math.random() * 80 + 10 + '%';
-                hitEffect.style.top = Math.random() * 60 + 20 + '%';
-                hitEffect.style.color = '#ffd700';
-                hitEffect.style.fontSize = '24px';
-                hitEffect.style.fontWeight = 'bold';
-                hitEffect.style.zIndex = '50';
-                hitEffect.style.animation = 'floatUp 2s forwards';
-                document.body.appendChild(hitEffect);
-                setTimeout(() => hitEffect.remove(), 2000);
+            // 创建炮弹
+            createBullet();
+
+            // 检测命中
+            setTimeout(() => {
+                checkHit();
+            }, 500);
+        }
+
+        // 创建炮弹
+        function createBullet() {
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet';
+            bullet.style.left = '50%';
+            bullet.style.bottom = '100px';
+            bullet.style.transform = 'translateX(-50%)';
+            document.body.appendChild(bullet);
+
+            // 炮弹动画
+            let bottom = 100;
+            const bulletInterval = setInterval(() => {
+                bottom += 15;
+                bullet.style.bottom = bottom + 'px';
+
+                if (bottom > window.innerHeight - 100) {
+                    clearInterval(bulletInterval);
+                    bullet.remove();
+                }
+            }, 50);
+        }
+
+        // 检测命中
+        function checkHit() {
+            const gameArea = document.getElementById('gameArea');
+            const fishes = gameArea.querySelectorAll('.fish:not(.caught)');
+
+            if (fishes.length === 0) return;
+
+            // 随机选中一条鱼（根据倍率提高命中概率）
+            const hitChance = Math.min(0.8, 0.2 + multiplier / 200);
+
+            if (Math.random() < hitChance) {
+                const randomFish = fishes[Math.floor(Math.random() * fishes.length)];
+                const fishData = fishList.find(f => f.element === randomFish);
+
+                if (fishData) {
+                    catchFish(randomFish, fishData);
+                }
             }
         }
 
+        // 捕获鱼类
+        function catchFish(fishElement, fishData) {
+            // 创建爆炸效果
+            const rect = fishElement.getBoundingClientRect();
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.style.left = rect.left + rect.width / 2 - 50 + 'px';
+            explosion.style.top = rect.top + rect.height / 2 - 50 + 'px';
+            document.body.appendChild(explosion);
+
+            setTimeout(() => explosion.remove(), 500);
+
+            // 鱼被捕获动画
+            fishElement.classList.add('caught');
+            fishElement.classList.remove('moving-right', 'moving-left');
+
+            // 计算奖励
+            const reward = fishData.reward * multiplier;
+            gold += reward;
+            score += reward;
+
+            document.getElementById('gold').textContent = gold;
+            document.getElementById('score').textContent = score;
+
+            // 显示奖励文字
+            showHitEffect(rect.left + rect.width / 2, rect.top, reward);
+
+            // 移除鱼
+            setTimeout(() => {
+                fishElement.remove();
+                fishList = fishList.filter(f => f.element !== fishElement);
+            }, 500);
+        }
+
+        // 显示命中效果
+        function showHitEffect(x, y, reward) {
+            const effect = document.createElement('div');
+            effect.className = 'hit-effect';
+            effect.textContent = '+' + reward;
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            document.body.appendChild(effect);
+
+            setTimeout(() => effect.remove(), 2000);
+        }
+
+        // 生成鱼
+        function spawnFish() {
+            const gameArea = document.getElementById('gameArea');
+
+            // 随机选择鱼的类型
+            const random = Math.random();
+            let cumulative = 0;
+            let selectedFish = fishTypes[0];
+
+            for (const fish of fishTypes) {
+                cumulative += fish.probability;
+                if (random < cumulative) {
+                    selectedFish = fish;
+                    break;
+                }
+            }
+
+            // 创建鱼元素
+            const fish = document.createElement('div');
+            fish.className = `fish ${selectedFish.size}`;
+            fish.textContent = selectedFish.emoji;
+
+            // 随机起始位置和方向
+            const direction = Math.random() > 0.5 ? 'right' : 'left';
+            const startY = Math.random() * (gameArea.offsetHeight - 100) + 50;
+
+            fish.style.top = startY + 'px';
+            fish.style.animationDuration = selectedFish.speed + 's';
+
+            if (direction === 'right') {
+                fish.classList.add('moving-right');
+            } else {
+                fish.classList.add('moving-left');
+            }
+
+            gameArea.appendChild(fish);
+
+            // 保存鱼的数据
+            fishList.push({
+                element: fish,
+                type: selectedFish
+            });
+
+            // 鱼游出屏幕后移除
+            setTimeout(() => {
+                if (fish.parentNode) {
+                    fish.remove();
+                    fishList = fishList.filter(f => f.element !== fish);
+                }
+            }, selectedFish.speed * 1000);
+        }
+
+        // 使用技能
+        function useSkill(skillType) {
+            const skillCost = skillType === 'ice' ? 10 : 20;
+
+            if (diamond < skillCost) {
+                showToast('钻石不足！', 'error');
+                return;
+            }
+
+            if (skillCooldowns[skillType] > 0) {
+                showToast('技能冷却中！', 'info');
+                return;
+            }
+
+            diamond -= skillCost;
+            saveUserInfo();
+
+            if (skillType === 'ice') {
+                // 冰冻技能
+                const effect = document.createElement('div');
+                effect.className = 'skill-effect ice-effect';
+                document.body.appendChild(effect);
+
+                // 暂停所有鱼的动画
+                fishList.forEach(f => {
+                    f.element.style.animationPlayState = 'paused';
+                });
+
+                setTimeout(() => {
+                    effect.remove();
+                    fishList.forEach(f => {
+                        f.element.style.animationPlayState = 'running';
+                    });
+                }, 5000);
+
+                skillCooldowns.ice = 30;
+                showToast('冰冻技能发动！全场冻结5秒', 'success');
+            } else if (skillType === 'bomb') {
+                // 炸弹技能
+                const fishes = document.querySelectorAll('.fish:not(.caught)');
+                const caughtCount = Math.min(fishes.length, 5);
+
+                for (let i = 0; i < caughtCount; i++) {
+                    const fish = fishes[i];
+                    const fishData = fishList.find(f => f.element === fish);
+                    if (fishData) {
+                        catchFish(fish, fishData);
+                    }
+                }
+
+                skillCooldowns.bomb = 45;
+                showToast('炸弹技能发动！捕获了' + caughtCount + '条鱼', 'success');
+            }
+
+            updateSkillButtons();
+            startCooldown(skillType);
+        }
+
+        // 开始冷却
+        function startCooldown(skillType) {
+            const btn = document.getElementById(skillType + 'Btn');
+
+            const cooldownInterval = setInterval(() => {
+                skillCooldowns[skillType]--;
+
+                if (skillCooldowns[skillType] <= 0) {
+                    clearInterval(cooldownInterval);
+                    btn.disabled = false;
+                } else {
+                    btn.disabled = true;
+                }
+            }, 1000);
+        }
+
+        // 更新技能按钮
+        function updateSkillButtons() {
+            // 可以在这里更新钻石显示等
+        }
+
+        // 切换自动开炮
         function toggleAuto() {
-            const switchEl = document.querySelector('.auto-switch');
+            const switchEl = document.getElementById('autoSwitch');
             autoFire = !autoFire;
             switchEl.classList.toggle('active', autoFire);
-            
+
             if (autoFire) {
-                autoInterval = setInterval(fire, 500);
+                autoInterval = setInterval(fire, 800);
+                showToast('自动开炮已开启', 'info');
             } else {
                 if (autoInterval) clearInterval(autoInterval);
+                showToast('自动开炮已关闭', 'info');
             }
         }
 
-        // 添加浮动动画
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatUp {
-                0% { opacity: 1; transform: translateY(0); }
-                100% { opacity: 0; transform: translateY(-50px); }
-            }
-        `;
-        document.head.appendChild(style);
+        // 定期生成鱼
+        setInterval(spawnFish, 2000);
 
-        // 未登录跳登录
+        // 初始生成几条鱼
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => spawnFish(), i * 400);
+        }
+
+        // 未登录跳转
         if (localStorage.getItem('isLogin') !== 'true') {
             window.location.href = 'login.html';
         }
