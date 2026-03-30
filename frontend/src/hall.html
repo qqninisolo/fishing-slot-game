@@ -21,7 +21,7 @@
             position: relative;
         }
 
-        /* 海洋波纹效果 */
+        /* 海洋背景 */
         .ocean-bg {
             position: fixed;
             top: 0;
@@ -29,44 +29,20 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 0% 100%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+                radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 100%, rgba(255, 107, 107, 0.08) 0%, transparent 50%);
             z-index: 0;
-        }
-
-        /* 气泡效果 */
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.2), transparent);
-            animation: bubbleUp linear infinite;
-        }
-
-        @keyframes bubbleUp {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) scale(1);
-                opacity: 0;
-            }
+            pointer-events: none;
         }
 
         /* 顶部导航 */
         .top-nav {
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
-            padding: 15px 25px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid rgba(0, 212, 255, 0.5);
+            border-bottom: 3px solid rgba(0, 212, 255, 0.6);
             position: relative;
             z-index: 100;
             backdrop-filter: blur(10px);
@@ -75,20 +51,20 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .avatar {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            border: 3px solid rgba(0, 212, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            font-size: 26px;
+            border: 3px solid rgba(0, 212, 255, 0.6);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
             position: relative;
         }
 
@@ -105,67 +81,72 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
+        .user-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
         .user-detail h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .user-detail p {
-            font-size: 13px;
+            font-size: 12px;
             color: #00d4ff;
         }
 
         .asset-bar {
             display: flex;
-            gap: 25px;
+            gap: 15px;
             align-items: center;
         }
 
         .asset-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 18px;
+            gap: 6px;
+            font-size: 16px;
             font-weight: bold;
-            padding: 8px 16px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 25px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .gold-icon {
             color: #ffd700;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .diamond-icon {
             color: #00bfff;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .recharge-btn {
-            padding: 10px 25px;
+            padding: 8px 18px;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             color: white;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+            box-shadow: 0 4px 12px rgba(240, 147, 251, 0.4);
         }
 
         .recharge-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+            box-shadow: 0 6px 16px rgba(240, 147, 251, 0.6);
         }
 
         /* 游戏选择区 */
         .game-section {
-            padding: 50px 30px 150px;
+            padding: 30px 20px 150px;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
@@ -174,15 +155,15 @@
 
         .section-title {
             text-align: center;
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
@@ -192,18 +173,18 @@
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .game-card {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 35px;
+            padding: 30px;
             text-align: center;
-            border: 2px solid rgba(0, 212, 255, 0.2);
+            border: 2px solid rgba(0, 212, 255, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             position: relative;
@@ -217,7 +198,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.15), transparent);
             transition: left 0.6s;
         }
 
@@ -227,54 +208,56 @@
 
         .game-card:hover {
             border-color: #00d4ff;
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
         }
 
         .game-icon {
-            font-size: 100px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
-            animation: bounce 2s ease-in-out infinite;
+            font-size: 90px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.3));
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes bounce {
+        @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
 
         .game-card h3 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: #fff;
         }
 
         .game-card p {
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 25px;
-            line-height: 1.6;
-            font-size: 15px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 14px;
         }
 
         .game-features {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .feature-tag {
-            padding: 6px 12px;
+            padding: 5px 10px;
             background: rgba(0, 212, 255, 0.15);
             border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 15px;
-            font-size: 12px;
+            border-radius: 12px;
+            font-size: 11px;
             color: #00d4ff;
+            font-weight: 500;
         }
 
         .enter-btn {
-            padding: 14px 40px;
+            padding: 14px 35px;
             background: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #0077aa 100%);
             border: none;
             border-radius: 30px;
@@ -283,12 +266,13 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .enter-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
         }
 
         /* 底部导航 */
@@ -300,8 +284,8 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0 20px;
-            border-top: 2px solid rgba(0, 212, 255, 0.5);
+            padding: 10px 0 15px;
+            border-top: 3px solid rgba(0, 212, 255, 0.6);
             z-index: 100;
             backdrop-filter: blur(10px);
         }
@@ -312,7 +296,12 @@
             transition: all 0.3s;
             padding: 8px 15px;
             border-radius: 15px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -321,19 +310,18 @@
         }
 
         .nav-item .icon {
-            font-size: 26px;
-            margin-bottom: 5px;
+            font-size: 24px;
         }
 
         .nav-item p {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
         }
 
         /* 提示框 */
         .toast {
             position: fixed;
-            top: 80px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
             padding: 15px 30px;
@@ -377,7 +365,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -390,8 +378,8 @@
         .modal-content {
             background: linear-gradient(135deg, #1a2a4a 0%, #0a1628 100%);
             border-radius: 24px;
-            padding: 40px;
-            max-width: 450px;
+            padding: 35px;
+            max-width: 420px;
             width: 90%;
             border: 2px solid rgba(0, 212, 255, 0.3);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
@@ -411,24 +399,24 @@
 
         .modal-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .modal-header h2 {
-            font-size: 28px;
+            font-size: 26px;
             color: #00d4ff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .recharge-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 25px;
         }
 
         .recharge-option {
-            padding: 20px;
+            padding: 18px;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(0, 212, 255, 0.2);
             border-radius: 15px;
@@ -443,36 +431,15 @@
         }
 
         .recharge-option .amount {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #ffd700;
             margin-bottom: 5px;
         }
 
         .recharge-option .diamond {
-            font-size: 14px;
+            font-size: 13px;
             color: #00bfff;
-        }
-
-        .close-btn, .confirm-btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .close-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            margin-right: 10px;
-        }
-
-        .confirm-btn {
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            color: white;
         }
 
         .modal-actions {
@@ -480,11 +447,123 @@
             justify-content: center;
             gap: 10px;
         }
+
+        .modal-actions button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-actions .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .modal-actions .confirm-btn {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 10px 15px;
+            }
+
+            .user-info {
+                gap: 8px;
+            }
+
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .user-detail h3 {
+                font-size: 14px;
+            }
+
+            .user-detail p {
+                font-size: 11px;
+            }
+
+            .asset-bar {
+                gap: 10px;
+            }
+
+            .asset-item {
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+
+            .recharge-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .game-section {
+                padding: 20px 15px 120px;
+            }
+
+            .section-title {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
+
+            .game-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .game-card {
+                padding: 25px;
+            }
+
+            .game-icon {
+                font-size: 70px;
+                margin-bottom: 12px;
+            }
+
+            .game-card h3 {
+                font-size: 22px;
+            }
+
+            .game-card p {
+                font-size: 13px;
+            }
+
+            .game-features {
+                gap: 8px;
+            }
+
+            .feature-tag {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+
+            .enter-btn {
+                padding: 12px 25px;
+                font-size: 15px;
+            }
+
+            .modal-content {
+                padding: 25px;
+                max-width: 90%;
+            }
+
+            .recharge-options {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="ocean-bg"></div>
-    <div id="bubbles"></div>
 
     <!-- 顶部导航 -->
     <div class="top-nav">
@@ -590,25 +669,35 @@
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="close-btn" onclick="hideRechargeModal()">取消</button>
-                <button class="confirm-btn" onclick="confirmRecharge()">确认充值</button>
+                <button class="modal-actions close-btn" onclick="hideRechargeModal()">取消</button>
+                <button class="modal-actions confirm-btn" onclick="confirmRecharge()">确认充值</button>
             </div>
         </div>
     </div>
 
     <script>
         // 生成气泡背景
-        const bubblesContainer = document.getElementById('bubbles');
-        for (let i = 0; i < 15; i++) {
+        const bubblesContainer = document.createElement('div');
+        bubblesContainer.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;';
+        for (let i = 0; i < 12; i++) {
             const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.width = Math.random() * 40 + 20 + 'px';
-            bubble.style.height = bubble.style.width;
-            bubble.style.animationDuration = Math.random() * 10 + 8 + 's';
-            bubble.style.animationDelay = Math.random() * 10 + 's';
+            bubble.style.cssText = `
+                position:absolute;
+                border-radius:50%;
+                background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent);
+                animation:bubbleUp ${Math.random() * 10 + 8}s linear infinite;
+                left:${Math.random() * 100}%;
+                width:${Math.random() * 30 + 20}px;
+                height:${Math.random() * 30 + 20}px;
+                animation-delay:${Math.random() * 10}s;
+            `;
             bubblesContainer.appendChild(bubble);
         }
+        document.body.appendChild(bubblesContainer);
+
+        const style = document.createElement('style');
+        style.textContent = '@keyframes bubbleUp {0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:0.8;transform:scale(1)}90%{opacity:0.8}100%{transform:translateY(-100px) scale(1.2);opacity:0}}';
+        document.head.appendChild(style);
 
         // 显示提示框
         function showToast(message, type = 'info') {
@@ -633,6 +722,7 @@
             userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
         } catch (e) {
             console.error('localStorage读取失败:', e);
+            userInfo = {};
         }
         document.getElementById('userName').textContent = userInfo.name || '游客';
         document.getElementById('gold').textContent = userInfo.gold || 0;
