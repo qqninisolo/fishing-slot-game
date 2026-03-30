@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   server: {
-    port: 8080,
-    host: true
+    port: 5173,
+    host: '0.0.0.0'
   },
   build: {
     outDir: 'dist',
